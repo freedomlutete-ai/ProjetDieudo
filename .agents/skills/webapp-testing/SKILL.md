@@ -80,6 +80,12 @@ with sync_playwright() as p:
 ❌ **Don't** inspect the DOM before waiting for `networkidle` on dynamic apps
 ✅ **Do** wait for `page.wait_for_load_state('networkidle')` before inspection
 
+## Notes d'environnement (cloud)
+
+- Le hook `.claude/hooks/session-start.sh` installe `playwright==1.56.0` : cette version correspond au Chromium préinstallé dans `/opt/pw-browsers`. Une version plus récente échoue avec « Executable doesn't exist ».
+- Sur Remotion Studio, `wait_for_load_state('networkidle')` peut expirer (30 s). Utiliser plutôt `wait_for_load_state('domcontentloaded')` puis `wait_for_selector(...)`.
+- Ne jamais lancer `pkill -f "<commande>"` depuis le même shell : la commande se tue elle-même (code 144).
+
 ## Best Practices
 
 - **Use bundled scripts as black boxes** - To accomplish a task, consider whether one of the scripts available in `scripts/` can help. These scripts handle common, complex workflows reliably without cluttering the context window. Use `--help` to see usage, then invoke directly. 
