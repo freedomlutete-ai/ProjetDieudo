@@ -2,6 +2,8 @@
 # Prépare les sessions cloud : dépendances du Reel + Playwright pour le skill webapp-testing.
 set -euo pipefail
 
+echo '{"async": true, "asyncTimeout": 300000}'
+
 if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then
   exit 0
 fi
