@@ -1,56 +1,47 @@
-# Welcome to your Expo app 👋
+# NutriPanier
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Application iOS et Android de suivi des calories avec liste de courses et scan de code-barres (Open Food Facts). Données uniquement sur l'appareil, base chiffrée. Expo SDK 58, TypeScript, Expo Router.
 
-## Get started
-
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+## Démarrer
 ```bash
-npm run reset-project
+cd nutripanier
+npm install
+cp .env.example .env        # facultatif en local ; valeurs publiques uniquement
+npx expo start              # Expo Go : tout sauf les achats et la base chiffrée
+```
+Le scan, SQLCipher et les achats demandent un development build : `eas build --profile development`.
+
+## Vérifications
+```bash
+npm run typecheck
+npm run lint
+npm test                                  # 81 tests unitaires
+npm run export:web && node e2e/serve.js & # puis :
+node e2e/run.js                           # 46 vérifications de bout en bout (Playwright)
+node e2e/store-screenshots.js             # captures pour les stores
+python3 scripts/make-icons.py             # icônes et visuels Play
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+## Structure
+| Dossier | Contenu |
+|---|---|
+| `src/app/` | écrans (Expo Router) |
+| `src/lib/` | logique : validation, calories, Open Food Facts, base, premium, CSV |
+| `src/components/`, `src/hooks/`, `src/i18n/` | interface, hooks, textes FR/EN |
+| `__tests__/` | tests unitaires |
+| `e2e/` | serveur de test, scénario Playwright, captures |
+| `docs/` | spécification, monétisation, fiche store, checklist, confidentialité, audit |
+| `store/` | captures et visuels pour les stores |
 
-### Other setup steps
+## Documents
+- [Spécification](docs/SPEC.md)
+- [Monétisation](docs/MONETIZATION.md)
+- [Fiche store](docs/STORE_LISTING.md)
+- [Checklist de soumission](docs/SUBMIT_CHECKLIST.md)
+- [Politique de confidentialité (brouillon)](docs/PRIVACY_POLICY.md)
+- [Audit de sécurité](docs/SECURITY_AUDIT.md)
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+## Avertissement
+Les estimations caloriques sont indicatives. NutriPanier n'est pas un dispositif médical. Faites relire l'app par un professionnel de santé et la politique de confidentialité par un juriste avant publication.
 
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Données produits : © les contributeurs d'Open Food Facts, licence ODbL.
